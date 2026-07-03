@@ -3,6 +3,11 @@ module.exports = {
   // Server Port
   PORT: process.env.PORT || 3001,
 
+  // Bind host — LOCAL PATCH (samurai/llmserver): force loopback by default to
+  // comply with the server-wide loopback-bind hardening policy. Upstream binds
+  // to 0.0.0.0 implicitly. Access is via SSH tunnel only. See PROVENANCE.md.
+  HOST: process.env.HOST || '127.0.0.1',
+
   // Allowed CORS Origins
   CORS_ORIGINS: ['http://localhost:3001', 'http://127.0.0.1:3001', 'http://localhost:5173', 'http://127.0.0.1:5173'],
 

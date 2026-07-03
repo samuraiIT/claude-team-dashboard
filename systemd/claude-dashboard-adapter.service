@@ -1,0 +1,31 @@
+[Unit]
+Description=Claude Team Dashboard Adapter (translates Claude Code logs into teams format)
+After=network-online.target claude-dashboard.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=samurai
+Group=samurai
+WorkingDirectory=/opt/project_llm/projects/claude-team-dashboard/adapter
+Environment=NODE_ENV=production
+Environment=LOG_LEVEL=info
+# Must match the dashboard's TMPDIR so mirrored .output symlinks land in the
+# same /tmp/claude/D--agentdashboard/tasks the dashboard watches.
+Environment=TMPDIR=/tmp
+# Tunables (see adapter/config.js)
+Environment=ADAPTER_MAX_AGE_DAYS=3
+Environment=ADAPTER_MAX_SESSIONS=12
+ExecStart=/usr/bin/node index.js
+Restart=on-failure
+RestartSec=10
+KillMode=mixed
+KillSignal=SIGTERM
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=claude-dashboard-adapter
+NoNewPrivileges=true
+ProtectSystem=full
+
+[Install]
+WantedBy=default.target

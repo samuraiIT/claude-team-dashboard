@@ -1,0 +1,32 @@
+[Unit]
+Description=Claude Team Dashboard (loopback-only monitoring UI for Claude Code)
+Documentation=https://github.com/mukul975/claude-team-dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=samurai
+Group=samurai
+WorkingDirectory=/opt/project_llm/projects/claude-team-dashboard
+# Loopback bind per server hardening policy. Port 20132 (3001 is taken by Grafana).
+Environment=PORT=20132
+Environment=HOST=127.0.0.1
+Environment=NODE_ENV=production
+# Shared /tmp so the adapter's mirrored output dir is visible to the dashboard.
+# Do NOT enable PrivateTmp — it would isolate /tmp/claude/D--agentdashboard.
+Environment=TMPDIR=/tmp
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+RestartSec=10
+KillMode=mixed
+KillSignal=SIGTERM
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=claude-dashboard
+# Light hardening (PrivateTmp intentionally OFF; see above)
+NoNewPrivileges=true
+ProtectSystem=full
+
+[Install]
+WantedBy=default.target

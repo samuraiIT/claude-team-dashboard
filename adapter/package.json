@@ -1,0 +1,21 @@
+{
+  "name": "claude-team-dashboard-adapter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bridge: translate real Claude Code session/subagent logs into the teams/inboxes/tasks format expected by claude-team-dashboard. Read-only on sources; writes only to ~/.claude/teams, ~/.claude/tasks/<session>, ~/.claude/adapter-state and the dashboard temp-tasks mirror.",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "once": "node index.js --once",
+    "dev": "LOG_LEVEL=debug node index.js",
+    "test": "node tests/transformer.test.js"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}

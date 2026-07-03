@@ -1983,8 +1983,9 @@ process.on('unhandledRejection', (reason) => {
 });
 
 // Start server
-server.listen(config.PORT, () => {
+server.listen(config.PORT, config.HOST, () => {
   console.log(`\n🚀 Dashboard is live and ready!`);
+  console.log(`   Bound to ${config.HOST}:${config.PORT} (loopback-only; access via SSH tunnel)`);
   console.log(`   You can view it at: http://localhost:${config.PORT}`);
   console.log(`\n📡 Real-time updates enabled - your teams will sync automatically`);
   console.log(`\n👀 Watching for activity:`);
